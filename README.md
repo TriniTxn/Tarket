@@ -2,7 +2,7 @@
 
 ### Tarket is a webmarket project made by @TriniTxn
 
-![UML Model](https://www.screenpresso.com/=rYbNK9C2vB9K)
+![UML Model](Tarket.png)
 
 ### Java version
 ```xml
