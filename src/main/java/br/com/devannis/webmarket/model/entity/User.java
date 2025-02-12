@@ -1,15 +1,14 @@
 package br.com.devannis.webmarket.model.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
 @Table(name = "TB_USERS")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 public class User {
 
@@ -19,8 +18,10 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    @Getter
     private String username;
 
+    @Getter
     private String email;
 
     private String password;
