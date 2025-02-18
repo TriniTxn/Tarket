@@ -18,6 +18,10 @@ public class Client {
     @Column(name = "client_id")
     private Long clientId;
 
+    @OneToOne
+    @JoinColumn(name = "user_user_id")
+    private User user;
+
     @Column(name = "client_name")
     private String clientName;
 
@@ -26,4 +30,6 @@ public class Client {
 
     @Column(name = "id_number")
     private String idNumber;
+
+
 }
