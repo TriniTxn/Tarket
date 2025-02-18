@@ -29,13 +29,9 @@ public class UserService {
     }
 
     public UserExhibitionDTO searchById(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User do not exist"));
 
-        if (userOptional.isPresent()) {
-            return new UserExhibitionDTO(userOptional.get());
-        } else {
-            throw new UserNotFoundException("User do not exist!");
-        }
+        return new UserExhibitionDTO(user);
     }
 
     public List<UserExhibitionDTO> listAllUsers() {
@@ -46,23 +42,16 @@ public class UserService {
                 .toList();
     }
 
-    public void excludeUser(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
+    public void deleteUserById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User do not exist"));
 
-        if(userOptional.isPresent()) {
-            userRepository.delete(userOptional.get());
-        } else {
-            throw new UserNotFoundException("User do not exist!");
-        }
+        userRepository.delete(user);
     }
 
-    public User updateUser(User user) {
-        Optional<User> userOptional = userRepository.findById(user.getUserId());
+    public UserExhibitionDTO updateUser(User user) {
+        userRepository.findById(user.getUserId()).orElseThrow(() -> new UserNotFoundException("User do not exist!"));
 
-        if (userOptional.isPresent()) {
-            return userRepository.save(user);
-        } else {
-            throw new UserNotFoundException("User do not exist!");
-        }
+        User savedUser = userRepository.save(user);
+        return new UserExhibitionDTO(savedUser);
     }
 }

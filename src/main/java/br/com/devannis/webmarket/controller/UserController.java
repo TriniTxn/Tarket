@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserExhibitionDTO save(@RequestBody @Valid UserRegisterDTO user) {
+    public UserExhibitionDTO createUser(@RequestBody @Valid UserRegisterDTO user) {
         return userService.saveUser(user);
     }
 
@@ -40,12 +40,12 @@ public class UserController {
     @DeleteMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void exclude(@PathVariable Long userId) {
-        userService.excludeUser(userId);
+        userService.deleteUserById(userId);
     }
 
     @PutMapping("/users")
     @ResponseStatus(HttpStatus.OK)
-    public User updateUser(@RequestBody User user) {
+    public UserExhibitionDTO updateUser(@RequestBody User user) {
         return userService.updateUser(user);
     }
 }

@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 
 public record ClientRegisterDTO(
         Long clientId,
+        
+        Long userId,
 
         @NotBlank(message = "Your name can not be empty")
         String clientName,

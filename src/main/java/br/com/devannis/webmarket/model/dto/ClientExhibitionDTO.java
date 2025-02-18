@@ -1,13 +1,14 @@
 package br.com.devannis.webmarket.model.dto;
 
 import br.com.devannis.webmarket.model.entity.Client;
-import br.com.devannis.webmarket.model.entity.User;
 
 public record ClientExhibitionDTO(
         Long clientId,
-        String clientName
+        String clientName,
+        String clientAddress,
+        String idNumber
 ) {
     public ClientExhibitionDTO(Client client) {
-        this(client.getClientId(), client.getClientName());
+        this(client.getClientId(), client.getClientName(), client.getClientAddress(), client.getIdNumber());
     }
 }

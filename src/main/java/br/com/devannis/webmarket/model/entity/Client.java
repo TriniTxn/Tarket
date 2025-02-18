@@ -19,7 +19,7 @@ public class Client {
     private Long clientId;
 
     @OneToOne
-    @JoinColumn(name = "user_user_id")
+    @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
 
     @Column(name = "client_name")
