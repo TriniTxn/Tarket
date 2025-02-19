@@ -1,7 +1,10 @@
 package br.com.devannis.webmarket.controller;
 
+import br.com.devannis.webmarket.model.dto.AddressExhibitionDTO;
+import br.com.devannis.webmarket.model.dto.AddressRegisterDTO;
 import br.com.devannis.webmarket.model.entity.Address;
 import br.com.devannis.webmarket.service.AddressService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +20,8 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping("/{clientId}")
-    public ResponseEntity<Address> addAddress(@PathVariable Long clientId, @RequestBody Address address) {
-        Address savedAddress = addressService.addAddress(clientId, address);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedAddress);
+    public AddressExhibitionDTO createAddress(@PathVariable Long clientId, @RequestBody @Valid AddressRegisterDTO address) {
+        return addressService.addAddress(clientId, address);
     }
 
     @GetMapping("/{clientId}")

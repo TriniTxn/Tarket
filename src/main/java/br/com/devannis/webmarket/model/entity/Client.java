@@ -25,7 +25,6 @@ public class Client {
     private User user;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "address_id")
     private List<Address> address;
 
     @Column(name = "client_name")

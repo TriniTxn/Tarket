@@ -16,7 +16,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ADDRESS")
     @SequenceGenerator(name = "SEQ_ADDRESS", sequenceName = "SEQ_ADDRESS", allocationSize = 1)
     @Column(name = "address_id")
-    private int addressId;
+    private Long addressId;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
