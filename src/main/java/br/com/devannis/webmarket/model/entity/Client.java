@@ -3,6 +3,8 @@ package br.com.devannis.webmarket.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "TB_CLIENTS")
 @Getter
@@ -21,6 +23,10 @@ public class Client {
     @OneToOne
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "address_id")
+    private List<Address> address;
 
     @Column(name = "client_name")
     private String clientName;

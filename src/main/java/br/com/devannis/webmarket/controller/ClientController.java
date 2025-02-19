@@ -12,37 +12,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/client")
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
 
-    @PostMapping("/client")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public ClientExhibitionDTO createClient(@RequestBody @Valid ClientRegisterDTO clientDTO) {
         return clientService.saveClient(clientDTO);
     }
 
-    @GetMapping("/client")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<ClientExhibitionDTO> listAllClients() {
         return clientService.listAllClients();
     }
 
-    @GetMapping("/client/{clientId}")
+    @GetMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
     public ClientExhibitionDTO getClientById(@RequestParam Long id) {
         return clientService.getClientById(id);
     }
 
-    @PutMapping("/client")
+    @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public ClientExhibitionDTO updateClient(@RequestBody @Valid Client client) {
         return clientService.updateClient(client);
     }
 
-    @DeleteMapping("/client/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClientById(@RequestParam Long id) {
         clientService.deleteClientById(id);

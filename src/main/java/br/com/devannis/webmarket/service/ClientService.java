@@ -25,7 +25,8 @@ public class ClientService {
     private UserRepository userRepository;
 
     public ClientExhibitionDTO saveClient(ClientRegisterDTO clientDTO) {
-        User user = userRepository.findById(clientDTO.userId()).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findById(clientDTO.userId())
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (clientRepository.existsByUser(user)) {
             throw new UserAlreadyExists("User already have a client registered");
@@ -59,13 +60,13 @@ public class ClientService {
     }
 
     public ClientExhibitionDTO updateClient(Client client) {
-        clientRepository.findById(client.getClientId()).orElseThrow(() -> new ClientNotFoundException("Client do not exist"));
-        User user = userRepository.findById(client.getUser().getUserId()).orElseThrow(() -> new UserNotFoundException("User not found"));
+        Client existingClient = clientRepository.findById(client.getClientId())
+                .orElseThrow(() -> new ClientNotFoundException("Client not found"));
+
+        client.setUser(existingClient.getUser());
 
         Client updatedClient = clientRepository.save(client);
         return new ClientExhibitionDTO(updatedClient);
-
-        // To be continued...
     }
 
     public void deleteClientById(Long id) {

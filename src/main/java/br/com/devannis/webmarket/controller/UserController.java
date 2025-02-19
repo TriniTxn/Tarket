@@ -13,37 +13,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/users")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public UserExhibitionDTO createUser(@RequestBody @Valid UserRegisterDTO user) {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/users")
+    @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<UserExhibitionDTO> listAll() {
         return userService.listAllUsers();
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<UserExhibitionDTO> searchById(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.searchById(userId));
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void exclude(@PathVariable Long userId) {
         userService.deleteUserById(userId);
     }
 
-    @PutMapping("/users")
+    @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public UserExhibitionDTO updateUser(@RequestBody User user) {
         return userService.updateUser(user);
