@@ -32,7 +32,7 @@ public class ClientController {
 
     @GetMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public ClientExhibitionDTO getClientById(@RequestParam Long id) {
+    public ClientExhibitionDTO getClientById(@RequestParam @Valid Long id) {
         return clientService.getClientById(id);
     }
 

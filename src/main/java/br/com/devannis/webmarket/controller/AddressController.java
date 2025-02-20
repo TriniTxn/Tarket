@@ -20,13 +20,38 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping("/{clientId}")
+    @ResponseStatus(HttpStatus.CREATED)
     public AddressExhibitionDTO createAddress(@PathVariable Long clientId, @RequestBody @Valid AddressRegisterDTO address) {
         return addressService.addAddress(clientId, address);
     }
 
-    @GetMapping("/{clientId}")
-    public ResponseEntity<List<Address>> getAddresses(@PathVariable Long clientId) {
-        List<Address> addresses = addressService.getAddressesByClient(clientId);
-        return ResponseEntity.ok(addresses);
+    @RequestMapping(method = RequestMethod.GET, params = "client")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AddressExhibitionDTO> getAddressesByClientId(@RequestParam @Valid Long client) {
+        return addressService.getAddressesByClient(client);
+    }
+
+    @GetMapping("/{addressId}")
+    @ResponseStatus(HttpStatus.OK)
+    public AddressExhibitionDTO getAddressById(@PathVariable @Valid Long addressId) {
+        return addressService.getAddressById(addressId);
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<AddressExhibitionDTO> getAllAddresses() {
+        return addressService.getAllAddresses();
+    }
+
+    @PutMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public AddressExhibitionDTO updateAddress(Address address) {
+        return addressService.updateAddress(address);
+    }
+
+    @DeleteMapping("/{addressId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAddressById(@RequestParam Long addressId) {
+        addressService.deleteAddress(addressId);
     }
 }
