@@ -1,4 +1,4 @@
-package br.com.devannis.webmarket.model.entity;
+package br.com.devannis.webmarket.model.enums;
 
 public enum Category {
     TSHIRTS("T-Shirts"),

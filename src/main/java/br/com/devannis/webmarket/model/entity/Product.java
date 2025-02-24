@@ -1,5 +1,6 @@
 package br.com.devannis.webmarket.model.entity;
 
+import br.com.devannis.webmarket.model.enums.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class Product {
     private Double productPrice;
 
     @Column(name = "stock")
-    private Integer stockQuantity;
+    private int stockQuantity;
 
     @Enumerated(EnumType.STRING)
     private Category category;

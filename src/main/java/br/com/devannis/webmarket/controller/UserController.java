@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<UserResponseDTO> searchById(@PathVariable Long userId) {
-        return ResponseEntity.ok(userService.searchById(userId));
+        return ResponseEntity.ok(userService.searchByUserId(userId));
     }
 
     @DeleteMapping("/{userId}")

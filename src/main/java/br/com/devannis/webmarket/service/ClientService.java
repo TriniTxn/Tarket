@@ -70,14 +70,8 @@ public class ClientService {
     }
 
     public void deleteClientById(Long id) {
-        Optional<Client> clientOptional = clientRepository.findById(id);
+        Client existingClient = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
 
-        if (clientOptional.isPresent()) {
-            System.out.println(clientOptional.get());
-
-            clientRepository.delete(clientOptional.get());
-        } else {
-            throw new ClientNotFoundException("Client do not exist");
-        }
+        clientRepository.delete(existingClient);
     }
 }

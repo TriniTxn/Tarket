@@ -27,7 +27,7 @@ public class UserService {
         return new UserResponseDTO(savedUser);
     }
 
-    public UserResponseDTO searchById(Long id) {
+    public UserResponseDTO searchByUserId(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User do not exist"));
 
         return new UserResponseDTO(user);
