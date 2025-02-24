@@ -1,7 +1,7 @@
 package br.com.devannis.webmarket.controller;
 
-import br.com.devannis.webmarket.model.dto.UserExhibitionDTO;
-import br.com.devannis.webmarket.model.dto.UserRegisterDTO;
+import br.com.devannis.webmarket.model.dto.UserResponseDTO;
+import br.com.devannis.webmarket.model.dto.UserRequestDTO;
 import br.com.devannis.webmarket.model.entity.User;
 import br.com.devannis.webmarket.service.UserService;
 import jakarta.validation.Valid;
@@ -21,19 +21,19 @@ public class UserController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public UserExhibitionDTO createUser(@RequestBody @Valid UserRegisterDTO user) {
+    public UserResponseDTO createUser(@RequestBody @Valid UserRequestDTO user) {
         return userService.saveUser(user);
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<UserExhibitionDTO> listAll() {
+    public List<UserResponseDTO> listAll() {
         return userService.listAllUsers();
     }
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<UserExhibitionDTO> searchById(@PathVariable Long userId) {
+    public ResponseEntity<UserResponseDTO> searchById(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.searchById(userId));
     }
 
@@ -45,7 +45,7 @@ public class UserController {
 
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
-    public UserExhibitionDTO updateUser(@RequestBody User user) {
+    public UserResponseDTO updateUser(@RequestBody User user) {
         return userService.updateUser(user);
     }
 }

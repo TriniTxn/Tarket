@@ -2,7 +2,7 @@ package br.com.devannis.webmarket.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AddressRegisterDTO(
+public record AddressRequestDTO(
 
         @NotBlank(message = "Zip code can not be empty")
         String zipCode,

@@ -2,7 +2,7 @@ package br.com.devannis.webmarket.model.dto;
 
 import jakarta.validation.constraints.*;
 
-public record UserRegisterDTO(
+public record UserRequestDTO(
         Long userId,
 
         @NotBlank(message = "Username can not be empty")

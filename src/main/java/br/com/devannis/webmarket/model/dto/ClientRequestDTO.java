@@ -2,7 +2,7 @@ package br.com.devannis.webmarket.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record ClientRegisterDTO(
+public record ClientRequestDTO(
         Long clientId,
         
         Long userId,

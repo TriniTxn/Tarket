@@ -1,8 +1,8 @@
 package br.com.devannis.webmarket.service;
 
 import br.com.devannis.webmarket.exception.UserNotFoundException;
-import br.com.devannis.webmarket.model.dto.UserExhibitionDTO;
-import br.com.devannis.webmarket.model.dto.UserRegisterDTO;
+import br.com.devannis.webmarket.model.dto.UserResponseDTO;
+import br.com.devannis.webmarket.model.dto.UserRequestDTO;
 import br.com.devannis.webmarket.model.entity.User;
 import br.com.devannis.webmarket.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -19,26 +18,26 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserExhibitionDTO saveUser(UserRegisterDTO userDTO) {
+    public UserResponseDTO saveUser(UserRequestDTO userDTO) {
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
 
         User savedUser = userRepository.save(user);
 
-        return new UserExhibitionDTO(savedUser);
+        return new UserResponseDTO(savedUser);
     }
 
-    public UserExhibitionDTO searchById(Long id) {
+    public UserResponseDTO searchById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User do not exist"));
 
-        return new UserExhibitionDTO(user);
+        return new UserResponseDTO(user);
     }
 
-    public List<UserExhibitionDTO> listAllUsers() {
+    public List<UserResponseDTO> listAllUsers() {
         return userRepository
                 .findAll()
                 .stream()
-                .map(UserExhibitionDTO::new)
+                .map(UserResponseDTO::new)
                 .toList();
     }
 
@@ -48,10 +47,10 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public UserExhibitionDTO updateUser(User user) {
+    public UserResponseDTO updateUser(User user) {
         userRepository.findById(user.getUserId()).orElseThrow(() -> new UserNotFoundException("User do not exist!"));
 
         User savedUser = userRepository.save(user);
-        return new UserExhibitionDTO(savedUser);
+        return new UserResponseDTO(savedUser);
     }
 }

@@ -3,8 +3,8 @@ package br.com.devannis.webmarket.service;
 import br.com.devannis.webmarket.exception.ClientNotFoundException;
 import br.com.devannis.webmarket.exception.UserAlreadyExists;
 import br.com.devannis.webmarket.exception.UserNotFoundException;
-import br.com.devannis.webmarket.model.dto.ClientExhibitionDTO;
-import br.com.devannis.webmarket.model.dto.ClientRegisterDTO;
+import br.com.devannis.webmarket.model.dto.ClientResponseDTO;
+import br.com.devannis.webmarket.model.dto.ClientRequestDTO;
 import br.com.devannis.webmarket.model.entity.Client;
 import br.com.devannis.webmarket.model.entity.User;
 import br.com.devannis.webmarket.repository.ClientRepository;
@@ -24,7 +24,7 @@ public class ClientService {
     @Autowired
     private UserRepository userRepository;
 
-    public ClientExhibitionDTO saveClient(ClientRegisterDTO clientDTO) {
+    public ClientResponseDTO saveClient(ClientRequestDTO clientDTO) {
         User user = userRepository.findById(clientDTO.userId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
@@ -38,35 +38,35 @@ public class ClientService {
 
         Client savedClient = clientRepository.save(client);
 
-        return new ClientExhibitionDTO(savedClient);
+        return new ClientResponseDTO(savedClient);
     }
 
-    public ClientExhibitionDTO getClientById(Long id) {
+    public ClientResponseDTO getClientById(Long id) {
         Optional<Client> clientOptional = clientRepository.findById(id);
 
         if (clientOptional.isPresent()) {
-            return new ClientExhibitionDTO(clientOptional.get());
+            return new ClientResponseDTO(clientOptional.get());
         } else {
             throw new ClientNotFoundException("Client do not exist");
         }
     }
 
-    public List<ClientExhibitionDTO> listAllClients() {
+    public List<ClientResponseDTO> listAllClients() {
         return clientRepository
                 .findAll()
                 .stream()
-                .map(ClientExhibitionDTO::new)
+                .map(ClientResponseDTO::new)
                 .toList();
     }
 
-    public ClientExhibitionDTO updateClient(Client client) {
+    public ClientResponseDTO updateClient(Client client) {
         Client existingClient = clientRepository.findById(client.getClientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client not found"));
 
         client.setUser(existingClient.getUser());
 
         Client updatedClient = clientRepository.save(client);
-        return new ClientExhibitionDTO(updatedClient);
+        return new ClientResponseDTO(updatedClient);
     }
 
     public void deleteClientById(Long id) {

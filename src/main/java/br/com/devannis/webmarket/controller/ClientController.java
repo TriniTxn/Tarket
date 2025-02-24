@@ -1,7 +1,7 @@
 package br.com.devannis.webmarket.controller;
 
-import br.com.devannis.webmarket.model.dto.ClientExhibitionDTO;
-import br.com.devannis.webmarket.model.dto.ClientRegisterDTO;
+import br.com.devannis.webmarket.model.dto.ClientResponseDTO;
+import br.com.devannis.webmarket.model.dto.ClientRequestDTO;
 import br.com.devannis.webmarket.model.entity.Client;
 import br.com.devannis.webmarket.service.ClientService;
 import jakarta.validation.Valid;
@@ -20,25 +20,25 @@ public class ClientController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientExhibitionDTO createClient(@RequestBody @Valid ClientRegisterDTO clientDTO) {
+    public ClientResponseDTO createClient(@RequestBody @Valid ClientRequestDTO clientDTO) {
         return clientService.saveClient(clientDTO);
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientExhibitionDTO> listAllClients() {
+    public List<ClientResponseDTO> listAllClients() {
         return clientService.listAllClients();
     }
 
     @GetMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public ClientExhibitionDTO getClientById(@RequestParam @Valid Long id) {
+    public ClientResponseDTO getClientById(@RequestParam @Valid Long id) {
         return clientService.getClientById(id);
     }
 
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
-    public ClientExhibitionDTO updateClient(@RequestBody @Valid Client client) {
+    public ClientResponseDTO updateClient(@RequestBody @Valid Client client) {
         return clientService.updateClient(client);
     }
 
