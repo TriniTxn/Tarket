@@ -1,7 +1,7 @@
 package br.com.devannis.webmarket.service;
 
 import br.com.devannis.webmarket.exception.ClientNotFoundException;
-import br.com.devannis.webmarket.exception.UserAlreadyExists;
+import br.com.devannis.webmarket.exception.UserAlreadyExistsException;
 import br.com.devannis.webmarket.exception.UserNotFoundException;
 import br.com.devannis.webmarket.model.dto.ClientResponseDTO;
 import br.com.devannis.webmarket.model.dto.ClientRequestDTO;
@@ -29,7 +29,7 @@ public class ClientService {
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         if (clientRepository.existsByUser(user)) {
-            throw new UserAlreadyExists("User already have a client registered");
+            throw new UserAlreadyExistsException("User already have a client registered");
         }
 
         Client client = new Client();

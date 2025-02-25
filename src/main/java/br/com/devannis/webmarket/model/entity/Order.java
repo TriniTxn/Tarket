@@ -32,4 +32,29 @@ public class Order {
     private LocalDateTime orderDate;
 
     private String status;
+
+    @OneToMany
+    private List<OrderItems> orderItems;
+
+    private double totalValue;
+
+    public double getTotalValue() {
+        if (orderItems == null) {
+            return 0.0;
+        }
+        return orderItems
+                .stream()
+                .mapToDouble(item -> item.getProduct().getProductPrice() * item.getQuantity())
+                .sum();
+    }
+
+    public double calculateTotalValue() {
+        if (orderItems == null || orderItems.isEmpty()) {
+            return 0.0;
+        }
+        return orderItems
+                .stream()
+                .mapToDouble(item -> item.getProduct().getProductPrice() * item.getQuantity())
+                .sum();
+    }
 }

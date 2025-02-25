@@ -1,5 +1,6 @@
 package br.com.devannis.webmarket.model.entity;
 
+import br.com.devannis.webmarket.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,5 +26,12 @@ public class User {
     private String email;
 
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @JoinColumn(name = "client_id")
+    private Client client;
 
 }

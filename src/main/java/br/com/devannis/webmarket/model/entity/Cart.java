@@ -20,14 +20,11 @@ public class Cart {
     private Long cartId;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
     private int quantity;
 
     private Double cartTotal;
+
 }

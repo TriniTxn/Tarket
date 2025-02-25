@@ -1,5 +1,6 @@
 package br.com.devannis.webmarket.model.dto;
 
+import br.com.devannis.webmarket.model.enums.UserRole;
 import jakarta.validation.constraints.*;
 
 public record UserRequestDTO(
@@ -14,6 +15,8 @@ public record UserRequestDTO(
 
         @NotBlank(message = "Password can not be empty")
         @Size(min = 5, message = "Password must have at least 5 characters")
-        String password
+        String password,
+
+        UserRole role
 ) {
 }
