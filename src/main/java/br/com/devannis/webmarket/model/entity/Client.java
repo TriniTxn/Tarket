@@ -24,17 +24,22 @@ public class Client {
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> address;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Address> addresses;
 
-    @Column(name = "client_name")
+    @Column(name = "client_name", nullable = false)
     private String clientName;
 
-    @Column(name = "client_address")
-    private String clientAddress;
-
-    @Column(name = "id_number")
+    @Column(name = "id_number", nullable = false)
     private String idNumber;
 
+    public void addAddress(Address address) {
+        address.setClient(this);
+        this.addresses.add(address);
+    }
 
+    public void removeAddress(Address address) {
+        address.setClient(null);
+        this.addresses.remove(address);
+    }
 }

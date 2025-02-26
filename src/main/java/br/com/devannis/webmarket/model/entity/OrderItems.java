@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "TB_ORDER_ITEMS")
 @Getter
@@ -20,15 +22,29 @@ public class OrderItems {
     private Long orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private int quantity;
 
-    public OrderItems(Order order, Product product, int quantity) {
+    @Column(name = "price_at_time_of_order", nullable = false, precision = 10, scale = 2)
+    private BigDecimal priceAtTimeOfOrder;
+
+    public OrderItems(Order order, Product product, int quantity, BigDecimal priceAtTimeOfOrder) {
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+        this.priceAtTimeOfOrder = priceAtTimeOfOrder;
+    }
+
+    public void setQuantity(int quantity) {
+        if (quantity < 0 ) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        this.quantity = quantity;
     }
 }

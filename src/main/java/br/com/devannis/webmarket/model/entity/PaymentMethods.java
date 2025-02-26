@@ -1,5 +1,6 @@
 package br.com.devannis.webmarket.model.entity;
 
+import br.com.devannis.webmarket.model.enums.PaymentMethodType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +20,9 @@ public class PaymentMethods {
     @SequenceGenerator(name = "SEQ_PAYMENT", sequenceName = "SEQ_PAYMENT", allocationSize = 1)
     private Long paymentMethodId;
 
-    private String paymentMethodName;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method_name", nullable = false)
+    private PaymentMethodType paymentMethodName;
 
     private String description;
 

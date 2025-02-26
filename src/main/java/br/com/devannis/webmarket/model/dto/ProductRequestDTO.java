@@ -1,28 +1,27 @@
 package br.com.devannis.webmarket.model.dto;
 
 import br.com.devannis.webmarket.model.enums.Category;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record ProductRequestDTO(
-
-        Long productId,
-
-        @NotBlank(message = "O nome do produto é obrigatório")
+        @NotBlank(message = "Product name must be inserted")
+        @Size(max = 200, message = "Product name must have only 200 characters")
         String productName,
 
+        @Size(max = 1000, message = "The description must have only 1000 characters")
         String productDescription,
 
-        @NotNull(message = "O preço do produto é obrigatório")
-        @Min(value = 0, message = "O preço deve ser maior ou igual a zero")
-        Double productPrice,
+        @NotNull(message = "You must insert the product price")
+        @DecimalMin(value = "0.0", inclusive = false, message = "The price must be greater than 0")
+        BigDecimal productPrice,
 
-        @NotNull(message = "A quantidade em estoque é obrigatória")
-        @Min(value = 0, message = "A quantidade em estoque não pode ser negativa")
+        @NotNull(message = "Stock quantity must be informed")
+        @Min(value = 0, message = "Stock quantity can not be negative")
         int stockQuantity,
 
+        @NotNull(message = "Category must be inserted")
         Category category
 ) {}

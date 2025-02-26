@@ -61,18 +61,18 @@ public class OrderService {
                 order.setTotalValue(order.calculateTotalValue());
                 orderRepository.save(order);
 
-                return OrderMapper.toOrderResponseDTO(order);
+                return OrderMapper.toDto(order);
     }
 
     public OrderResponseDTO getOrderById(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
 
-        return OrderMapper.toOrderResponseDTO(order);
+        return OrderMapper.toDto(order);
     }
 
     public List<OrderResponseDTO> getOrdersByClient(Long clientId) {
         List<Order> orders = orderRepository.findByClientClientId(clientId);
 
-        return orders.stream().map(OrderMapper::toOrderResponseDTO).collect(Collectors.toList());
+        return orders.stream().map(OrderMapper::toDto).collect(Collectors.toList());
     }
 }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,17 +24,19 @@ public class Order {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @OneToMany
-    private List<Cart> cart;
+    @OneToOne
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
 
+    @CreationTimestamp
     private LocalDateTime orderDate;
 
     private String status;
 
-    @OneToMany
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItems> orderItems;
 
     private double totalValue;
@@ -48,13 +51,4 @@ public class Order {
                 .sum();
     }
 
-    public double calculateTotalValue() {
-        if (orderItems == null || orderItems.isEmpty()) {
-            return 0.0;
-        }
-        return orderItems
-                .stream()
-                .mapToDouble(item -> item.getProduct().getProductPrice() * item.getQuantity())
-                .sum();
-    }
 }

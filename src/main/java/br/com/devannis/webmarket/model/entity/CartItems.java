@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -21,11 +22,29 @@ public class CartItems {
     @SequenceGenerator(name = "SEQ_CART_ITEMS", sequenceName = "SEQ_CART_ITEMS", allocationSize = 1)
     private Long cartItemId;
 
-    @OneToMany
-    private List<Cart> cart;
+    @ManyToOne
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
 
-    @OneToMany
-    private List<Product> products;
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     private int quantity;
+
+    private BigDecimal priceAtTimeOfAddition;
+
+    public CartItems(Cart cart, Product product, int quantity, BigDecimal priceAtTimeOfAddition) {
+        this.cart = cart;
+        this.product = product;
+        this.quantity = quantity;
+        this.priceAtTimeOfAddition = priceAtTimeOfAddition;
+    }
+
+    public void setQuantity(int quantity) {
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative");
+        }
+        this.quantity = quantity;
+    }
 }

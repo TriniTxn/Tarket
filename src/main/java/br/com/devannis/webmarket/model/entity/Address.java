@@ -9,7 +9,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Address {
 
     @Id
@@ -22,9 +21,22 @@ public class Address {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    @Column(name = "zip_code")
+    @Column(name = "zip_code", nullable = false)
     private String zipCode;
+
+    @Column(name = "street", nullable = false)
     private String street;
+
+    @Column(name = "city", nullable = false)
     private String city;
+
+    @Column(name = "state", nullable = false)
     private String state;
+
+    public void setClient(Client client) {
+        this.client = client;
+        if (client != null && !client.getAddresses().contains(this)) {
+            client.getAddresses().add(this);
+        }
+    }
 }

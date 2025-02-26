@@ -19,19 +19,31 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
-    @Getter
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Getter
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
     private UserRole role;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JoinColumn(name = "client_id")
     private Client client;
 
+    public void setClient(Client client) {
+        if (client == null) {
+            if (this.client != null) {
+                this.client.setUser(null);
+            }
+        } else {
+            client.setUser(this);
+        }
+        this.client = client;
+    }
 }

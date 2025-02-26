@@ -7,7 +7,7 @@ import br.com.devannis.webmarket.model.entity.Order;
 import java.util.List;
 
 public class OrderMapper {
-    public static OrderResponseDTO toOrderResponseDTO(Order order) {
+    public static OrderResponseDTO toDto(Order order) {
         List<OrderItemsResponseDTO> items = order
                 .getOrderItems()
                 .stream()

@@ -3,13 +3,18 @@ package br.com.devannis.webmarket.model.dto;
 import br.com.devannis.webmarket.model.entity.Product;
 import br.com.devannis.webmarket.model.enums.Category;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 public record ProductResponseDTO(
         Long productId,
         String name,
         String description,
-        Double price,
+        BigDecimal price,
         Integer stockQuantity,
-        Category category
+        Category category,
+        LocalDateTime addedAt,
+        LocalDateTime updatedAt
 ) {
     public ProductResponseDTO(Product product) {
         this (
@@ -18,7 +23,9 @@ public record ProductResponseDTO(
                 product.getProductDescription(),
                 product.getProductPrice(),
                 product.getStockQuantity(),
-                product.getCategory()
+                product.getCategory(),
+                product.getAddedAt(),
+                product.getUpdatedAt()
         );
     }
 }

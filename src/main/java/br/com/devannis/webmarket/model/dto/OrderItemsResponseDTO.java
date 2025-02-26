@@ -1,9 +1,11 @@
 package br.com.devannis.webmarket.model.dto;
 
+import java.math.BigDecimal;
+
 public record OrderItemsResponseDTO(
         Long productId,
         String productName,
-        double productPrice,
+        BigDecimal productPrice,
         int quantity
 ) {
 }

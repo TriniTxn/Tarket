@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "TB_CART")
@@ -19,12 +25,33 @@ public class Cart {
     @SequenceGenerator(name = "SEQ_CART", sequenceName = "SEQ_CART", allocationSize = 1)
     private Long cartId;
 
-    @ManyToOne
+    private String status;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private int quantity;
+    @ManyToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
-    private Double cartTotal;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartItems> cartItems;
 
+
+    public BigDecimal getCartTotal() {
+        if (cartItems == null || cartItems.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        return cartItems
+                .stream()
+                .map(item -> item.getProduct().getProductPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

@@ -1,7 +1,11 @@
 package br.com.devannis.webmarket.model.dto;
 
+import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
+
 public record CartRequestDTO(
-        Long productId,
-        int quantity
+        @NotNull(message = "List of items can not be null")
+        List<CartItemRequestDTO> items
 ) {
 }
