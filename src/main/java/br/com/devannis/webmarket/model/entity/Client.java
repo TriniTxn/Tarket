@@ -24,7 +24,7 @@ public class Client {
     @JoinColumn(name = "user_id", unique = true, nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses;
 
     @Column(name = "client_name", nullable = false)

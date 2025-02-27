@@ -4,9 +4,13 @@ import br.com.devannis.webmarket.model.dto.OrderItemsResponseDTO;
 import br.com.devannis.webmarket.model.dto.OrderResponseDTO;
 import br.com.devannis.webmarket.model.entity.Order;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class OrderMapper {
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
     public static OrderResponseDTO toDto(Order order) {
         List<OrderItemsResponseDTO> items = order
                 .getOrderItems()
@@ -19,11 +23,13 @@ public class OrderMapper {
                 ))
                 .toList();
 
+        String formattedOrderDate = order.getOrderDate().format(DATE_FORMATTER);
+
         return new OrderResponseDTO(
                 order.getOrderId(),
                 order.getStatus(),
-                order.getTotalValue(),
-                order.getOrderDate().toString(),
+                order.calculateTotalValue(),
+                formattedOrderDate,
                 items
         );
     }

@@ -12,6 +12,7 @@ import br.com.devannis.webmarket.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class ClientService {
         return new ClientResponseDTO(savedClient);
     }
 
+    @Transactional(readOnly = true)
     public ClientResponseDTO getClientById(Long id) {
         Optional<Client> clientOptional = clientRepository.findById(id);
 
@@ -51,6 +53,7 @@ public class ClientService {
         }
     }
 
+    @Transactional
     public List<ClientResponseDTO> listAllClients() {
         return clientRepository
                 .findAll()
@@ -69,6 +72,7 @@ public class ClientService {
         return new ClientResponseDTO(updatedClient);
     }
 
+    @Transactional
     public void deleteClientById(Long id) {
         Client existingClient = clientRepository.findById(id).orElseThrow(() -> new ClientNotFoundException("Client not found"));
 

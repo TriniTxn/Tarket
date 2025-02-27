@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -46,20 +48,12 @@ public class Product {
     private Category category;
 
     @Column(name = "added_at")
+    @CreationTimestamp()
     private LocalDateTime addedAt;
 
     @Column(name = "updated_at")
+    @UpdateTimestamp()
     private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.addedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 
     public void setStockQuantity(int stockQuantity) {
         if (stockQuantity < 0) {

@@ -3,6 +3,10 @@ package br.com.devannis.webmarket.model.entity;
 import br.com.devannis.webmarket.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "TB_USERS")
@@ -35,6 +39,12 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JoinColumn(name = "client_id")
     private Client client;
+
+    @CreationTimestamp()
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp()
+    private LocalDateTime updatedAt;
 
     public void setClient(Client client) {
         if (client == null) {

@@ -1,6 +1,7 @@
 package br.com.devannis.webmarket.service;
 
 import br.com.devannis.webmarket.exception.CartNotFoundException;
+import br.com.devannis.webmarket.mapper.CartMapper;
 import br.com.devannis.webmarket.model.dto.CartResponseDTO;
 import br.com.devannis.webmarket.model.entity.Cart;
 import br.com.devannis.webmarket.repository.CartRepository;

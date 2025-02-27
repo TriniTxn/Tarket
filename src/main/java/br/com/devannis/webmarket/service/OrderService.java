@@ -1,6 +1,7 @@
 package br.com.devannis.webmarket.service;
 
 import br.com.devannis.webmarket.exception.ClientNotFoundException;
+import br.com.devannis.webmarket.exception.InsufficientStockException;
 import br.com.devannis.webmarket.exception.OrderNotFoundException;
 import br.com.devannis.webmarket.exception.ProductNotFoundException;
 import br.com.devannis.webmarket.mapper.OrderMapper;
@@ -49,13 +50,20 @@ public class OrderService {
                             .findById(itemDTO.productId()).orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
                     if (product.getStockQuantity() < itemDTO.quantity()){
-                        throw new RuntimeException("We do not have the amount chosen: (Actual stock of this product: " + product.getStockQuantity() + ")");
+                        throw new InsufficientStockException("We do not have the amount chosen: (Actual stock of this product: " + product.getStockQuantity() + ")");
                     }
                     product.setStockQuantity(product.getStockQuantity() - itemDTO.quantity());
                     productRepository.save(product);
 
-                    return new OrderItems(order, product, itemDTO.quantity());
-                }).collect(Collectors.toList());
+                    OrderItems orderItem = new OrderItems();
+                    orderItem.setOrder(order);
+                    orderItem.setProduct(product);
+                    orderItem.setQuantity(itemDTO.quantity());
+                    orderItem.setPriceAtTimeOfOrder(product.getProductPrice());
+
+                    return orderItem;
+                })
+                .collect(Collectors.toList());
 
                 order.setOrderItems(orderItems);
                 order.setTotalValue(order.calculateTotalValue());

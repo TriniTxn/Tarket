@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -39,16 +40,15 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItems> orderItems;
 
-    private double totalValue;
+    private BigDecimal totalValue;
 
-    public double getTotalValue() {
-        if (orderItems == null) {
-            return 0.0;
+    public BigDecimal calculateTotalValue() {
+        if (orderItems == null || orderItems.isEmpty()) {
+            return BigDecimal.ZERO;
         }
         return orderItems
                 .stream()
-                .mapToDouble(item -> item.getProduct().getProductPrice() * item.getQuantity())
-                .sum();
+                .map(item -> item.getProduct().getProductPrice()
+                        .multiply(BigDecimal.valueOf(item.getQuantity()))).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
-
 }

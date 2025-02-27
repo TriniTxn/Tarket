@@ -11,6 +11,7 @@ import br.com.devannis.webmarket.repository.ClientRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,15 +25,18 @@ public class AddressService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Transactional
     public AddressResponseDTO addAddress(Long clientId, AddressRequestDTO addressDTO) {
         Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientNotFoundException("Client not found"));
 
         Address address = new Address();
+
         BeanUtils.copyProperties(addressDTO, address);
         address.setClient(client);
 
         addressRepository.save(address);
+        clientRepository.save(client);
 
         return new AddressResponseDTO(address);
     }
