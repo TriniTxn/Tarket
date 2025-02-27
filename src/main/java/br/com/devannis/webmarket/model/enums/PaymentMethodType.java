@@ -4,5 +4,6 @@ public enum PaymentMethodType {
     CREDIT_CARD,
     DEBIT_CARD,
     MONEY,
-    PIX
+    PIX,
+    BANK_TRANSFER
 }
