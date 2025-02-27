@@ -18,12 +18,12 @@ public record CartResponseDTO(
         this(
                 cart.getCartId(),
                 cart.getStatus(),
-                cart.getCartTotal(),  // Método para calcular o valor total do carrinho
+                cart.getCartTotal(),
                 cart.getCreatedAt(),
                 cart.getUpdatedAt(),
                 cart.getCartItems().stream()
                         .map(CartItemResponseDTO::new)
-                        .toList()  // Converte a lista de CartItem para CartItemResponseDTO
+                        .toList()
         );
     }
 }
