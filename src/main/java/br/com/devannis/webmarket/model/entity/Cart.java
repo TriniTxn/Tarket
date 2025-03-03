@@ -1,5 +1,6 @@
 package br.com.devannis.webmarket.model.entity;
 
+import br.com.devannis.webmarket.model.enums.CartStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,12 +39,15 @@ public class Cart {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CartItems> cartItems;
+    private List<CartItems> cartItems = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private CartStatus cartStatus;
 
 
     public BigDecimal getCartTotal() {

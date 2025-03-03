@@ -6,6 +6,7 @@ import br.com.devannis.webmarket.exception.UserNotFoundException;
 import br.com.devannis.webmarket.model.dto.ClientResponseDTO;
 import br.com.devannis.webmarket.model.dto.ClientRequestDTO;
 import br.com.devannis.webmarket.model.entity.Address;
+import br.com.devannis.webmarket.model.entity.Cart;
 import br.com.devannis.webmarket.model.entity.Client;
 import br.com.devannis.webmarket.model.entity.User;
 import br.com.devannis.webmarket.repository.AddressRepository;
@@ -30,6 +31,7 @@ public class ClientService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Transactional
     public ClientResponseDTO saveClient(ClientRequestDTO clientDTO) {
         User user = userRepository.findById(clientDTO.userId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -58,6 +60,10 @@ public class ClientService {
 
             client.getAddresses().addAll(addresses);
         }
+
+        Cart cart = new Cart();
+        cart.setClient(client);
+        client.setCart(cart);
 
         Client savedClient = clientRepository.save(client);
 

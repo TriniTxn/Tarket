@@ -33,6 +33,10 @@ public class Client {
     @Column(name = "id_number", nullable = false)
     private String idNumber;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id", referencedColumnName = "cartId")
+    private Cart cart;
+
     public void addAddress(Address address) {
         address.setClient(this);
         this.addresses.add(address);

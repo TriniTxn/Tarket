@@ -10,20 +10,28 @@ import java.util.stream.Collectors;
 
 public class CartMapper {
     public static CartResponseDTO toDto(Cart cart) {
-        List<CartItemResponseDTO> items = cart.getCartItems().stream()
+
+        if (cart == null) {
+            throw new IllegalArgumentException("Cart cannot be null");
+        }
+
+        List<CartItemResponseDTO> items = cart.getCartItems() != null ? cart.getCartItems()
+                .stream()
+                .filter(item -> item != null && item.getProduct() != null)
                 .map(item -> new CartItemResponseDTO(
                         item.getProduct().getProductId(),
                         item.getProduct().getProductName(),
                         item.getProduct().getProductPrice(),
                         item.getQuantity()
                 ))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : List.of();
 
         BigDecimal totalValue = cart
-                .getCartItems()
+                .getCartItems() != null ? cart.getCartItems()
                 .stream()
+                .filter(item -> item != null && item.getProduct() != null)
                 .map(item -> item.getProduct().getProductPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .reduce(BigDecimal.ZERO, BigDecimal::add) : BigDecimal.ZERO;
 
         return new CartResponseDTO(
                 cart.getCartId(),

@@ -11,7 +11,8 @@ public record ClientResponseDTO(
         Long userId,
         String clientName,
         String idNumber,
-        List<AddressResponseDTO> addresses
+        List<AddressResponseDTO> addresses,
+        Long cartId
 ) {
     public ClientResponseDTO(Client client) {
         this(client.getClientId()
@@ -20,6 +21,7 @@ public record ClientResponseDTO(
                 ,client.getIdNumber()
                 ,client.getAddresses() != null ?
                         client.getAddresses().stream().map(AddressResponseDTO::new)
-                                .toList(): new ArrayList<>());
+                                .toList() : new ArrayList<>()
+                ,client.getCart().getCartId());
     }
 }
