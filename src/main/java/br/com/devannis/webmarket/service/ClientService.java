@@ -5,8 +5,10 @@ import br.com.devannis.webmarket.exception.UserAlreadyExistsException;
 import br.com.devannis.webmarket.exception.UserNotFoundException;
 import br.com.devannis.webmarket.model.dto.ClientResponseDTO;
 import br.com.devannis.webmarket.model.dto.ClientRequestDTO;
+import br.com.devannis.webmarket.model.entity.Address;
 import br.com.devannis.webmarket.model.entity.Client;
 import br.com.devannis.webmarket.model.entity.User;
+import br.com.devannis.webmarket.repository.AddressRepository;
 import br.com.devannis.webmarket.repository.ClientRepository;
 import br.com.devannis.webmarket.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +27,8 @@ public class ClientService {
     private ClientRepository clientRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     public ClientResponseDTO saveClient(ClientRequestDTO clientDTO) {
         User user = userRepository.findById(clientDTO.userId())
@@ -34,8 +39,25 @@ public class ClientService {
         }
 
         Client client = new Client();
-        BeanUtils.copyProperties(clientDTO, client);
+        client.setClientName(clientDTO.clientName());
+        client.setIdNumber(String.valueOf(clientDTO.idNumber()));
         client.setUser(user);
+        client.setAddresses(new ArrayList<>());
+
+        if(clientDTO.addresses() != null && !clientDTO.addresses().isEmpty()) {
+            List<Address> addresses = clientDTO.addresses().stream()
+                    .map(dto -> {
+                        Address address = new Address();
+                        address.setZipCode(dto.zipCode());
+                        address.setStreet(dto.street());
+                        address.setCity(dto.city());
+                        address.setState(dto.state());
+                        address.setClient(client);
+                        return address;
+                    }).toList();
+
+            client.getAddresses().addAll(addresses);
+        }
 
         Client savedClient = clientRepository.save(client);
 

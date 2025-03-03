@@ -44,8 +44,8 @@ public class AddressController {
 
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
-    public AddressResponseDTO updateAddress(Address address) {
-        return addressService.updateAddress(address);
+    public AddressResponseDTO updateAddress(@PathVariable Long addressId, @RequestBody @Valid AddressRequestDTO addressDTO) {
+        return addressService.updateAddress(addressId, addressDTO);
     }
 
     @DeleteMapping("/{addressId}")

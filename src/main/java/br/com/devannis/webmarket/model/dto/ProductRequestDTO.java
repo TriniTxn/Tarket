@@ -4,7 +4,6 @@ import br.com.devannis.webmarket.model.enums.Category;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public record ProductRequestDTO(
         @NotBlank(message = "Product name must be inserted")

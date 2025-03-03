@@ -3,7 +3,8 @@ package br.com.devannis.webmarket.model.enums;
 public enum UserRole {
     ADMIN("admin"),
     CLIENT("client"),
-    USER("user");
+    USER("user"),
+    SELLER("seller");
 
     private String role;
 

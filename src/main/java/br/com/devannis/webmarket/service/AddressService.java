@@ -32,7 +32,10 @@ public class AddressService {
 
         Address address = new Address();
 
-        BeanUtils.copyProperties(addressDTO, address);
+        address.setZipCode(addressDTO.zipCode());
+        address.setStreet(addressDTO.street());
+        address.setCity(addressDTO.city());
+        address.setState(addressDTO.state());
         address.setClient(client);
 
         addressRepository.save(address);
@@ -61,13 +64,16 @@ public class AddressService {
         return addressRepository.findAll().stream().map(AddressResponseDTO::new).toList();
     }
 
-    public AddressResponseDTO updateAddress(Address address) {
-        Address existingAddress = addressRepository.findById(address.getAddressId())
+    public AddressResponseDTO updateAddress(Long addressId, AddressRequestDTO address) {
+        Address existingAddress = addressRepository.findById(addressId)
                 .orElseThrow(() -> new AddressNotFoundException("Address do not exist"));
 
-        address.setClient(existingAddress.getClient());
+        existingAddress.setZipCode(address.zipCode());
+        existingAddress.setCity(address.city());
+        existingAddress.setState(address.state());
+        existingAddress.setStreet(address.street());
 
-        Address updatedAddress = addressRepository.save(address);
+        Address updatedAddress = addressRepository.save(existingAddress);
         return new AddressResponseDTO(updatedAddress);
     }
 
