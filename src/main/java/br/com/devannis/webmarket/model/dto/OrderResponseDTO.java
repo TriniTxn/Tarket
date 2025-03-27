@@ -10,5 +10,4 @@ public record OrderResponseDTO(
         String orderDate,
         List<OrderItemsResponseDTO> items
 ) {
-
 }
